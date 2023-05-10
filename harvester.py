@@ -6,11 +6,30 @@ import couchdb
 
 os.environ['MASTODON_ACCESS_TOKEN'] ="psbBwt1Fup13_91jQXtLxrWZ6U57XOwZmX5LK-ZF-sU"
 
-remote_server = couchdb.Server("https://admin:admin@172.17.0.4:5984/")
-db = remote_server['twitter']
-mango = {"selector": {"user.lang": {"$eq": "ja"}}}
+m = Mastodon(
+        api_base_url=f'https://mastodon.social',
+        access_token=os.environ['MASTODON_ACCESS_TOKEN']
+    )
 
-for i in db.find(mango): print(i)
+class Listener(StreamListener):
+
+    def on_update(self, status):
+        print(json.dumps(status, indent=2, sort_keys=True, default=str))
+    
+    def handle_heartbeat(self):
+        print("Thump")
+        return super().handle_heartbeat()
+
+m.stream_hashtag('ai',Listener(), timeout=120)
+
+
+######## Mastodon and couch db code below (only works on vm because of network bridge stuff) ###############
+
+# remote_server = couchdb.Server("https://admin:admin@172.17.0.4:5984/")
+# db = remote_server['twitter']
+# mango = {"selector": {"user.lang": {"$eq": "ja"}}}
+
+# for i in db.find(mango): print(i)
 
 # toot = {
 #   "account": {
@@ -105,28 +124,18 @@ for i in db.find(mango): print(i)
 #   "url": "https://mastodon.uno/@alessiopomaro/110342871944572912",
 #   "visibility": "public"
 # }
+
+
 # doc_id, doc_rev =  db.save(toot)
 
-m = Mastodon(
-        api_base_url=f'https://mastodon.social',
-        access_token=os.environ['MASTODON_ACCESS_TOKEN']
-    )
-
-class Listener(StreamListener):
-
-    def on_update(self, status):
-        print(json.dumps(status, indent=2, sort_keys=True, default=str))
-    
-    def handle_heartbeat(self):
-        print("Thump")
-        return super().handle_heartbeat()
-
-# m.stream_hashtag('ai',Listener(), timeout=120)
-
-# curl -XPOST "http://${user}:${pass}@${masternode}:5984/twitter/_find" \
+# curl -XPOST "http://${user}:${pass}@${masternode}:5984/mastodon_db/_find" \
 # --header "Content-Type: application/json" --data '{
 #    "fields" : ["account.content"],
 #    "selector": {
 #       "language": {"$eq": "it"}
 #    }
 # }'  | jq '.' -M
+
+
+
+
