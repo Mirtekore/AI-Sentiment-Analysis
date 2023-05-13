@@ -7,7 +7,7 @@ import couchdb
 os.environ['MASTODON_ACCESS_TOKEN'] ="psbBwt1Fup13_91jQXtLxrWZ6U57XOwZmX5LK-ZF-sU"
 
 m = Mastodon(
-        api_base_url=f'https://mastodon.social',
+        api_base_url='https://mastodon.social',
         access_token=os.environ['MASTODON_ACCESS_TOKEN']
     )
 

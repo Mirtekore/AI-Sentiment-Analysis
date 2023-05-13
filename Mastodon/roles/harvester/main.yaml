@@ -1,0 +1,14 @@
+
+- name: run harvester
+  ansible.builtin.script:
+    executable: python3
+    cmd: harvester.py
+  register: toots_found
+
+    # - name: print toots
+    #   ansible.builtin.debug:
+    #   var: toots_found
+
+    # - name: convert to JSON
+    #   ansible.builtin.set_fact:
+    #   toots: "{{ toots_raw.stdout | from_json }}"

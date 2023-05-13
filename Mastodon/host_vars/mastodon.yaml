@@ -1,0 +1,4 @@
+mastodon_access_token: "psbBwt1Fup13_91jQXtLxrWZ6U57XOwZmX5LK-ZF-sU"
+mastodon_url: 'https://mastodon.social'
+
+couchdb_server: "https://admin:admin@172.17.0.4:5984/"
