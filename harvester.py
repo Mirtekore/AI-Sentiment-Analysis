@@ -20,12 +20,12 @@ class Listener(StreamListener):
         print("Thump")
         return super().handle_heartbeat()
 
-m.stream_hashtag('ai',Listener(), timeout=120)
+# m.stream_hashtag('ai',Listener(), timeout=120)
 
 
 ######## Mastodon and couch db code below (only works on vm because of network bridge stuff) ###############
 
-# remote_server = couchdb.Server("https://admin:admin@172.17.0.4:5984/")
+# remote_server = couchdb.Server("https://admin:admin@172.26.135.240/")
 # db = remote_server['twitter']
 # mango = {"selector": {"user.lang": {"$eq": "ja"}}}
 

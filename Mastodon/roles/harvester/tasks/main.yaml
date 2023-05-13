@@ -1,3 +1,7 @@
+- name: copy harvester.py to instance
+  ansible.builtin.copy:
+    src: harvester.py
+    dest: harvester.py
 
 - name: run harvester
   ansible.builtin.script:
