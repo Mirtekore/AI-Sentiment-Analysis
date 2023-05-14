@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible-playbook mastodon.yaml --ask-become-pass
+ansible-playbook mastodon.yaml --ask-become-pass -vvv

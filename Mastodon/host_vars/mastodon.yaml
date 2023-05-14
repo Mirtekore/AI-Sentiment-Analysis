@@ -3,7 +3,7 @@ mastodon_url: 'https://mastodon.social'
 
 
 mastodon_au_access_token: "EdOcJee5mHnl5eX1DHqQzFZaJ_FzrfIJm8uERDEuZVw"
-mastodon_url: 'https://aus.social'
+mastodon_url_aussocial: 'https://aus.social'
 
 couchdb_server: "https://admin:admin@172.17.0.4:5984/"
 
