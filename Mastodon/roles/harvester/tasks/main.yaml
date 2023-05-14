@@ -1,18 +1,14 @@
 - name: copy harvester.py to instance
   ansible.builtin.copy:
     src: harvester.py
-    dest: harvester.py
+    dest: dest_file/harvester.py
 
 - name: run harvester
   ansible.builtin.script:
     executable: python3
     cmd: harvester.py
-  register: toots_found
+    poll: 0
 
-    # - name: print toots
-    #   ansible.builtin.debug:
-    #   var: toots_found
-
-    # - name: convert to JSON
-    #   ansible.builtin.set_fact:
-    #   toots: "{{ toots_raw.stdout | from_json }}"
+# - name: run harvester
+#   ansible.builtin.script:
+#     shell: cd ./dest_file; nohup python3 harvester.py &

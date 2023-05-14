@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible-playbook -i hosts -u ubuntu mastodon.yaml 
+ansible-playbook mastodon.yaml --ask-become-pass
