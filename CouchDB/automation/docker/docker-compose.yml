@@ -1,0 +1,40 @@
+services:
+  node1:
+    image: ibmcom/couchdb3:3.2.1
+    volumes:
+      # - ./data/couchdb_data:/opt/couchdb/data
+      - couchdb_node1_data:/opt/couchdb/data
+    ports:
+      # - 5984-5990:5984
+      - 5984:5984
+      - 4369:4369
+      - 9100:9100
+    restart: always
+    environment:
+      # # TODO: don't use plaintext
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+    expose:
+      - 5984
+    ## Creating multiple deployments
+    # deploy:
+    #   mode: replicated
+    #   replicas: 6
+  # # TODO: volume management across different containers
+  # # TODO: remove after local instance
+  # # Can remove if having multiple nodes across instances
+  # node2:
+  #   image: ibmcom/couchdb3:3.2.1
+  #   volumes:
+  #     - couchdb_node2_data:/opt/couchdb/data
+  #   ports:
+  #     - 5988:5984
+  #   restart: always
+  #   environment:
+  #     - COUCHDB_USER=admin
+  #     - COUCHDB_PASSWORD=admin
+  #   expose:
+  #     - 5988
+volumes:
+  couchdb_node1_data:
+  # couchdb_node2_data:

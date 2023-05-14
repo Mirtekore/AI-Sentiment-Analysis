@@ -1,0 +1,11 @@
+{
+  "action": "enable_cluster",
+  "bind_address": "0.0.0.0",
+  "username": "admin",
+  "password": "admin",
+  "port": "5984",
+  "remote_node": "172.26.131.114",
+  "node_count": "2",
+  "remote_current_user": "admin",
+  "remote_current_password": "admin"
+}

@@ -1,0 +1,7 @@
+{
+  "action": "add_node",
+  "host": "172.26.131.114",
+  "port": "5984",
+  "username": "admin",
+  "password": "admin"
+}

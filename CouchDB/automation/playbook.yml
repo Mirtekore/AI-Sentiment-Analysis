@@ -1,0 +1,99 @@
+---
+- name: Install Docker.
+  hosts: couchdb_coordinator
+  become: true
+  vars:
+    couchdb_version: "3.2.1"
+    docker_users:
+      - "ubuntu"
+
+  tasks:
+    # TODO:
+    # Add appropriate error handling for accidentally overwriting volumes, etc.
+    # Conditionally use or create data
+
+    # TODO:
+    # Refactor docker installation
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Update apt and install pip3
+      apt:
+        name: python3-pip
+        state: latest
+
+    - name: Install Docker Module for Python
+      ansible.builtin.pip:
+        name: docker
+
+    - name: Install Docker Compose Module for Python
+      ansible.builtin.pip:
+        name: docker-compose
+
+    - name: Copy docker compose file to server
+      copy:
+        src: docker/
+        dest: couchdb_docker/
+
+    - name: Copy docker compose file to server
+      copy:
+        src: clustering/
+        dest: clustering/
+
+    - name: Start the couchDB container
+      community.docker.docker_compose:
+        project_src: couchdb_docker
+      register: output
+
+    # - name: Check that you can connect (GET) to a page and it returns a status 200
+    #   ansible.builtin.uri:
+    #     url: http://127.0.0.1:5984
+    #     method: POST
+    # url_username: "admin"
+    # url_password: "admin"
+
+    # - name: Contact the masternode and initiate cluster creation
+    #   uri:
+    #     url: http://127.0.0.1:5984
+    #     url_username: "admin"
+    #     url_password: "admin"
+    #     body: "{{ lookup('file','initiate_cluster.json') }}"
+    #     method: POST
+    #     body_format: json
+    #     headers:
+    #       Content-Type: "application/json"
+    #       X-Application-Username: "admin"
+    #       X-Application-Password: "admin"
+
+    # - name: Inform the masternode of the additional node
+    #   uri:
+    #     url: http://127.0.0.1:5984
+    #     body: "{{ lookup('file','add_node.json') }}"
+    #     method: POST
+    #     body_format: json
+    #     headers:
+    #       Content-Type: "application/json"
+
+    # - name: Finish the cluster setup with the masternode
+    #   uri:
+    #     url: http://127.0.0.1:5984
+    #     url_username: "admin"
+    #     url_password: "admin"
+    #     body: "{{ lookup('file','finish_cluster.json') }}"
+    #     method: POST
+    #     body_format: json
+    #     headers:
+    #       Content-Type: "application/json"
