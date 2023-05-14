@@ -1,5 +1,5 @@
 ---
-- name: Install docker and start single node couchDB.
+- name: Start single node couchDB on each host
   hosts: couchdb
   become: true
   vars:
