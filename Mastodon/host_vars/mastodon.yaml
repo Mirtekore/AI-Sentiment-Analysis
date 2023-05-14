@@ -9,3 +9,4 @@ mastodon:
 python_packages:
   - name: CouchDB
   - name: Mastodon.py
+  - name: beautifulsoup4
