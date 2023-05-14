@@ -3,11 +3,7 @@
     src: harvester.py
     dest: dest_file/harvester.py
 
-# - name: run harvester
-#   ansible.builtin.script:
-#     executable: python3
-#     cmd: harvester.py
-#     poll: 0
-
 - name: run harvester
-  shell: cd dest_file; nohup python3 harvester.py &
+  shell: cd dest_file; nohup python3 harvester.py {{item.access_token}} {{item.mastodon_url}} &
+  loop: "{{ mastodon }}"
+

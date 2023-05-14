@@ -1,14 +1,10 @@
-#!/usr/bin/env python3
-
 from mastodon import Mastodon, MastodonNotFoundError, MastodonRatelimitError, StreamListener
-import json, os
+import json, sys
 import couchdb
 
-os.environ['MASTODON_ACCESS_TOKEN'] ="psbBwt1Fup13_91jQXtLxrWZ6U57XOwZmX5LK-ZF-sU"
-
 m = Mastodon(
-        api_base_url='https://mastodon.social',
-        access_token=os.environ['MASTODON_ACCESS_TOKEN']
+        api_base_url=sys.argv[2],
+        access_token=sys.argv[1]
     )
 
 class Listener(StreamListener):
