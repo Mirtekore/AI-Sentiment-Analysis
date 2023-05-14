@@ -1,0 +1,37 @@
+---
+- name: Install docker and start single node couchDB.
+  hosts: couchdb
+  become: true
+  vars:
+    couchdb_version: "3.2.1"
+    docker_users:
+      - "ubuntu"
+
+  tasks:
+    # Check before installation
+    - community.docker.docker_compose:
+        project_src: couchdb_docker
+        state: absent
+
+    - community.docker.docker_compose:
+        project_name: couchdb_docker
+        definition:
+          db:
+            image: ibmcom/couchdb3:3.2.1
+            volumes:
+              # TODO: ensure persistent storage
+              # TODO: support multiple nodes at same instance deployed
+              - couchdb_node1_data:/opt/couchdb/data
+            ports:
+              - 5984:5984
+              - 4369:4369
+              - 9100:9100
+            restart: always
+            environment:
+              # TODO: don't use plaintext, use ansible vault
+              - COUCHDB_USER=admin
+              - COUCHDB_PASSWORD=admin
+              - NODENAME={{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}
+            expose:
+              - 5984
+      register: output
