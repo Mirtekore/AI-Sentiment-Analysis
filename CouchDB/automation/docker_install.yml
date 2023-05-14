@@ -1,0 +1,43 @@
+---
+- name: Install Docker Engine and Docker Compose
+  hosts: couchdb_coordinator
+  become: true
+  vars:
+    docker_users:
+      - "ubuntu"
+
+  tasks:
+    # TODO:
+    # Add appropriate error handling for accidentally overwriting volumes, etc.
+    # Conditionally use or create data
+
+    # TODO:
+    # Refactor docker installation
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Update apt and install pip3
+      apt:
+        name: python3-pip
+        state: latest
+
+    - name: Install Docker Module for Python
+      ansible.builtin.pip:
+        name: docker
+
+    - name: Install Docker Compose Module for Python
+      ansible.builtin.pip:
+        name: docker-compose
