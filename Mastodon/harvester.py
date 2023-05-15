@@ -1,5 +1,5 @@
 from mastodon import Mastodon, MastodonNotFoundError, MastodonRatelimitError, StreamListener
-import sys, couchdb
+import sys, couchdb2
 from bs4 import BeautifulSoup
 
 # m = Mastodon(
@@ -23,7 +23,7 @@ from bs4 import BeautifulSoup
 
 ######## Mastodon and couch db code below (only works on vm because of network bridge stuff) ###############
 
-remote_server = couchdb.Server("https://admin:Zi12ZnK2r2n@172.26.135.240:5984/")
+remote_server = couchdb2.Server("https://admin:Zi12ZnK2r2n@172.26.135.240:5984")
 db = remote_server.create('Test')
 doc = {'foo': 'bar'}
 print(db.save(doc))
