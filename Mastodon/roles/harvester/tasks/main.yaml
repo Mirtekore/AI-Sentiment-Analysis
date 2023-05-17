@@ -4,6 +4,6 @@
     dest: harvester.py
 
 - name: run harvester
-  shell: nohup python3 harvester.py {{item.access_token}} {{item.mastodon_url}} &
+  shell: nohup python3 harvester.py {{item.access_token}} {{item.mastodon_url}} {{ couchdb_server }} &
   loop: "{{ mastodon }}"
 

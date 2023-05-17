@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: Mastodon
   vars_files:
     - host_vars/mastodon.yaml
   gather_facts: false
