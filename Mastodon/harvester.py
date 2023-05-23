@@ -1,4 +1,4 @@
-from mastodon import Mastodon, MastodonNotFoundError, MastodonRatelimitError, StreamListener
+from mastodon import Mastodon, StreamListener
 import sys, couchdb
 from bs4 import BeautifulSoup
 
@@ -21,5 +21,10 @@ class Listener(StreamListener):
     
     def handle_heartbeat(self):
         return super().handle_heartbeat()
+    
+    # Restart the harvester when error occurs
+    def on_abort(self, err):
+        m.stream_hashtag('ai',Listener(), timeout=120)
+        return super().on_abort(err)
 
 m.stream_hashtag('ai',Listener(), timeout=120)
