@@ -1,3 +1,10 @@
+# INFORMATION ----------------------------------------------------------------------------------------
+# 
+# Authors: COMP90024 Team 54
+# This file was created for Mastodon harvesting for COMP90024 Cloud and Cluster Computing Assignment 2
+#
+# ----------------------------------------------------------------------------------------------------
+
 from mastodon import Mastodon, StreamListener
 import sys, couchdb
 from bs4 import BeautifulSoup

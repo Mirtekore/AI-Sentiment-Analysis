@@ -1,0 +1,30 @@
+ansible-playbook [core 2.14.5]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/engj/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/engj/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0] (/usr/bin/python3)
+  jinja version = 3.0.3
+  libyaml = True
+Using /etc/ansible/ansible.cfg as config file
+Skipping callback 'default', as we already have a stdout callback.
+Skipping callback 'minimal', as we already have a stdout callback.
+Skipping callback 'oneline', as we already have a stdout callback.
+
+PLAYBOOK: mrc.yaml *************************************************************
+1 plays in mrc.yaml
+
+PLAY [localhost] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+task path: /mnt/c/Users/Jay Eng/Curr_Folder/Ansible/ansible-demo/mrc/mrc.yaml:1
+ok: [localhost]
+
+TASK [openstack-common : Install pip] ******************************************
+task path: /mnt/c/Users/Jay Eng/Curr_Folder/Ansible/ansible-demo/mrc/roles/openstack-common/tasks/main.yaml:3
+fatal: [localhost]: FAILED! => {"changed": false, "module_stderr": "sudo: a password is required\n", "module_stdout": "", "msg": "MODULE FAILURE\nSee stdout/stderr for the exact error", "rc": 1}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
