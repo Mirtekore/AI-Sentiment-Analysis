@@ -2,6 +2,7 @@ from mastodon import Mastodon, MastodonNotFoundError, MastodonRatelimitError, St
 import sys, couchdb
 from bs4 import BeautifulSoup
 
+# Connect to database based on arguments passed in shell script
 remote_server = couchdb.Server(sys.argv[3])
 db = remote_server['mastodon']
 
@@ -22,26 +23,3 @@ class Listener(StreamListener):
         return super().handle_heartbeat()
 
 m.stream_hashtag('ai',Listener(), timeout=120)
-
-
-################### CouchDB x Mastodon troubleshooting code below ###############################
-# remote_server.resource.session.disable_ssl_verification()
-
-# db = remote_server.create('test')
-
-# doc = {'foo': 'bar'}
-# print(db.save(doc))
-
-# username = "admin"
-# password = "Zi12ZnK2r2n"
-# host = "172.26.135.240:5984"
-
-# remote_server = couchdb.Server('http://'+host)
-# remote_server.resource.session.disable_ssl_verification()
-# remote_server.resource.credentials = (username, password)
-
-# db = remote_server['test']
-
-# doc = {'foo': 'bar'}
-# # db.delete(doc)
-# remote_server.delete('test')
