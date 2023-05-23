@@ -8,11 +8,13 @@ count_negative = 0
 count_positive = 0
 
 db = remote_server['mastodon']
+
+# Toots inserted into couchdb are already preprocessed and are all relevant to scenario 
 for docid in db.view('_all_docs', include_docs = True):
     toot_sentiment = TextBlob(docid.doc['content']).sentiment.polarity
     if -1< toot_sentiment < -0.2:
         count_negative += 1
-    elif toot_sentiment >= -0.2 and toot_sentiment <= 0.2:
+    elif toot_sentiment >= -0.1 and toot_sentiment <= 0.1:
         count_neutral += 1
     else:
         count_positive += 1 
@@ -29,10 +31,6 @@ print("Negative count: ", count_negative)
 
 # doc = {'foo': 'bar'}
 # print(db.save(doc))
-
-# username = "admin"
-# password = "Zi12ZnK2r2n"
-# host = "172.26.135.240:5984"
 
 # remote_server = couchdb.Server('http://'+host)
 # remote_server.resource.session.disable_ssl_verification()
