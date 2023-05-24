@@ -3,11 +3,6 @@
     src: harvester.py
     dest: harvester.py
 
-- name: copy analyzer.py to instance
-  ansible.builtin.copy:
-    src: analyzer.py
-    dest: analyzer.py
-
 - name: run harvester
   shell: nohup python3 harvester.py {{item.access_token}} {{item.mastodon_url}} {{ couchdb_server }} &
   loop: "{{ mastodon }}"
