@@ -8,10 +8,11 @@
 from mastodon import Mastodon, StreamListener
 import sys, couchdb
 from bs4 import BeautifulSoup
+from textblob import TextBlob
 
 # Connect to database based on arguments passed in shell script
 remote_server = couchdb.Server(sys.argv[3])
-db = remote_server['mastodon']
+db = remote_server['mast']
 
 m = Mastodon(
         api_base_url=sys.argv[2],
@@ -23,7 +24,8 @@ class Listener(StreamListener):
     def on_update(self, status):
         # Extract the content field from toot, convert html format of toot into string
         toot = BeautifulSoup(status["content"], 'html.parser').get_text()
-        json_doc = {'content': toot}
+        toot_sentiment = TextBlob(toot).sentiment.polarity
+        json_doc = {'content': toot, 'sentiment': toot_sentiment}
         db.save(json_doc)
     
     def handle_heartbeat(self):
