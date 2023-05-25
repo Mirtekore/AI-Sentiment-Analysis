@@ -7,14 +7,8 @@ instance_network: qh2-uom-internal
 
 # Volume
 volumes:
-  - vol_name: demo-vol-1-1
-    vol_size: 10
-  - vol_name: demo-vol-1-2
-    vol_size: 10
-  - vol_name: demo-vol-2-1
-    vol_size: 10
-  - vol_name: demo-vol-2-2
-    vol_size: 10
+  - vol_name: twitter_vol
+    vol_size: 50
 
 # Security group
 security_groups:
@@ -33,7 +27,6 @@ security_groups:
 
 # Instance
 instances:
-  - name: demo-1
-  #   volumes: ["demo-vol-1-1", "demo-vol-1-2"]
-  # - name: demo-2
-  #   volumes: ["demo-vol-2-1", "demo-vol-2-2"]
+  - name: Twitter
+    volumes: ["twitter_vol"]
+

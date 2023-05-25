@@ -11,7 +11,7 @@
     network: "{{ instance_network }}"
     security_groups: "{{ sg_names }}"
     timeout: 600
-    # volumes: "{{ item.volumes }}"
+    volumes: "{{ item.volumes }}"
     state: present
     wait: true
   loop: "{{ instances }}"
