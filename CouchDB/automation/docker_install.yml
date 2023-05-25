@@ -1,18 +1,12 @@
 ---
 - name: Install Docker Engine and Docker Compose
-  hosts: couchdb_coordinator
+  hosts: couchdb_scale
   become: true
   vars:
     docker_users:
       - "ubuntu"
 
   tasks:
-    # TODO:
-    # Add appropriate error handling for accidentally overwriting volumes, etc.
-    # Conditionally use or create data
-
-    # TODO:
-    # Refactor docker installation
     - name: Add Docker GPG apt Key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
@@ -41,3 +35,13 @@
     - name: Install Docker Compose Module for Python
       ansible.builtin.pip:
         name: docker-compose
+
+    - name: Change docker directory to permanent storage
+      copy:
+        src: files/daemon.json
+        dest: ../../etc/docker/daemon.json
+
+    - name: Restart docker
+      ansible.builtin.service:
+        name: docker
+        state: restarted
