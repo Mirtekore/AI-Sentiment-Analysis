@@ -1,0 +1,83 @@
+---
+- name: Add a node to the existing couchDB cluster.
+  hosts: node2
+  become: true
+  vars:
+    couchdb_version: "3.2.1"
+    docker_users:
+      - "ubuntu"
+  vars_files:
+    - vars/admin_credentials.yml
+
+  tasks:
+    - uri:
+        method: POST
+        url: "http://127.0.0.1:5984/_cluster_setup"
+        user: "{{admin_credentials_user}}"
+        password: "{{admin_credentials_pass}}"
+        force_basic_auth: yes
+        return_content: yes
+        status_code: 201
+        headers:
+          Content-Type: "application/json"
+        body: |
+          {
+            "action": "enable_cluster",
+            "bind_address":"0.0.0.0",
+            "username": "{{admin_credentials_user}}",
+            "password": "{{admin_credentials_pass}}",
+            "port": 5984,
+            "node_count": "2",
+            "remote_node": "{{ item }}",
+            "remote_current_user": "{{admin_credentials_user}}",
+            "remote_current_password": "{{admin_credentials_pass}}"
+          }
+        body_format: json
+      loop:
+        - 172.26.135.130
+
+      register: json_response1
+
+    - debug: msg={{json_response1}}
+
+    - uri:
+        method: POST
+        url: "http://127.0.0.1:5984/_cluster_setup"
+        user: "{{admin_credentials_user}}"
+        password: "{{admin_credentials_pass}}"
+        force_basic_auth: yes
+        return_content: yes
+        status_code: 201
+        headers:
+          Content-Type: "application/json"
+        body:
+          action: "add_node"
+          host: "{{item}}"
+          port: 5984
+          username: "{{admin_credentials_user}}"
+          password: "{{admin_credentials_pass}}"
+        body_format: json
+      loop:
+        - 172.26.135.130
+      register: json_response2
+
+    - debug: msg={{json_response2}}
+
+    - uri:
+        method: POST
+        url: "http://127.0.0.1:5984/_cluster_setup"
+        user: "{{admin_credentials_user}}"
+        password: "{{admin_credentials_pass}}"
+        force_basic_auth: yes
+        return_content: yes
+        # Workshop indicated to ignore unable to sync admin passwords error
+        status_code: 500
+        headers:
+          Content-Type: application/json
+        body: |
+          {
+            "action": "finish_cluster"
+          }
+      register: json_response3
+
+    - debug: msg={{json_response3}}

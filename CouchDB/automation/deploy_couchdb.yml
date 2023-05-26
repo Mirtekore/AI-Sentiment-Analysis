@@ -1,0 +1,31 @@
+---
+- name: Start single node couchDB on each host
+  hosts: demo_nodes
+  become: true
+  vars:
+    couchdb_version: "3.2.1"
+    docker_users:
+      - "ubuntu"
+  vars_files:
+    - vars/admin_credentials.yml
+
+  tasks:
+    - community.docker.docker_compose:
+        project_name: couchdb_docker
+        definition:
+          db:
+            image: ibmcom/couchdb3:3.2.1
+            volumes:
+              - couchdb_node1_data:/opt/couchdb/data
+            ports:
+              - 5984:5984
+              - 4369:4369
+              - 9100:9100
+            restart: always
+            environment:
+              - COUCHDB_USER={{admin_credentials_user}}
+              - COUCHDB_PASSWORD={{admin_credentials_pass}}
+              - NODENAME={{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}
+            expose:
+              - 5984
+      register: output
